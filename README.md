@@ -1,51 +1,177 @@
-# Customer Segmentation using K-Means Clustering
+# Customer Segmentation Using K-Means Clustering
 
-![Python Version](https://img.shields.io/badge/python-3.x-blue.svg)
-![Library](https://img.shields.io/badge/scikit--learn-clustering-orange.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
+## 📌 Project Overview
 
-An end-to-end Machine Learning mini-project focusing on **unsupervised customer segmentation** using the K-Means clustering algorithm. This project analyzes customer data from a retail mall to identify distinct purchasing behaviors and segments based on annual income and spending scores, enabling targeted marketing strategies.
+This project applies unsupervised machine learning techniques to segment mall customers based on their annual income and spending behavior.
 
----
+Using the **K-Means clustering algorithm**, the project identifies groups of customers with similar characteristics. These segments can help businesses better understand customer behavior and support data-driven marketing strategies.
 
-## 📊 Dataset Overview
+## 🎯 Objectives
 
-The project uses the **Mall Customers** dataset (`Mall_Customers.csv`), which contains 200 records with the following features:
-* **CustomerID:** Unique ID assigned to the customer.
-* **Gender:** Demographic category (Male / Female).
-* **Age:** Customer age (ranging from 18 to 70 years).
-* **Annual Income (k$):** Customer's annual income in thousands of dollars.
-* **Spending Score (1-100):** Score assigned by the mall based on customer behavior and purchasing habits.
+- Explore and understand customer demographic and spending data.
+- Perform exploratory data analysis (EDA) and visualization.
+- Preprocess and scale numerical features for clustering.
+- Determine the appropriate number of clusters using the Elbow Method and Silhouette Score.
+- Apply K-Means clustering to segment customers.
+- Analyze cluster characteristics and customer profiles.
+- Visualize customer segments and cluster centroids.
 
----
+## 📂 Dataset
 
-## 🛠️ Project Workflow
+The project uses `Mall_Customers.csv`, which contains **200 customer records** and the following features:
 
-1. **Data Loading & Cleaning:**
-   * Loaded the dataset, inspected structural integrity, and verified missing values.
-   * Cleaned and renamed column headers to standard snake_case formats.
+| Feature | Description |
+|---|---|
+| `CustomerID` | Unique customer identifier |
+| `Gender` | Customer gender |
+| `Age` | Customer age |
+| `Annual Income (k$)` | Annual income in thousands of dollars |
+| `Spending Score (1-100)` | Spending score on a scale of 1 to 100 |
 
-2. **Exploratory Data Analysis (EDA):**
-   * Generated distribution plots, histograms, and boxplots to understand demographic and financial distributions.
-   * Created correlation heatmaps and bivariate pairplots (segmented by gender and age groups).
+## 🛠️ Technologies Used
 
-3. **Feature Engineering & Preprocessing:**
-   * Encoded categorical variables (`Gender`) using one-hot encoding.
-   * Standardized numerical features (`Annual Income` and `Spending Score`) using `StandardScaler` to ensure equal variance weighting during clustering.
+- **Python**
+- **Pandas** — data manipulation and analysis
+- **NumPy** — numerical operations
+- **Matplotlib** — data visualization
+- **Seaborn** — statistical visualization
+- **Scikit-learn** — feature scaling and clustering
+- **Jupyter Notebook** — interactive development environment
 
-4. **Model Training & Evaluation (K-Means):**
-   * **Elbow Method:** Evaluated inertia across $K \in [1, 10]$ to locate the optimal inflection point.
-   * **Silhouette Analysis:** Calculated silhouette scores for $K=2$ through $K=7$, identifying **$K=5$** as the optimal cluster count (highest silhouette score $\approx 0.55$).
-   * Fitted the final K-Means model (`n_clusters=5`, `random_state=42`).
+## 🔍 Project Workflow
 
-5. **Cluster Profiling & Visualization:**
-   * Mapped cluster labels back to the original dataframe and inverse-transformed centroids.
-   * Visualized the 5 distinct customer segments alongside their cluster centers.
+### 1. Exploratory Data Analysis (EDA)
 
----
+The dataset is examined to understand its structure and characteristics.
 
-## 📁 Repository Structure
+Analysis includes:
+- Summary statistics and unique value counts.
+- Missing-value checks.
+- Gender and age distributions.
+- Annual income and spending score distributions.
+- Outlier inspection using boxplots.
+- Correlation analysis using a heatmap.
+- Pairwise relationships between numerical features.
+
+### 2. Data Preprocessing
+
+The following preprocessing steps are performed:
+
+- Rename columns for easier access and readability.
+- Fill missing numerical values with their median.
+- Fill missing gender values with the mode.
+- Encode the gender variable using one-hot encoding.
+- Select annual income and spending score as the clustering features.
+- Standardize the selected features using `StandardScaler`.
+
+The `CustomerID` column is excluded from clustering because it is an identifier rather than a meaningful behavioral feature.
+
+### 3. Data Storytelling and Visualization
+
+Several visualizations are created to explore customer behavior:
+
+- Annual income versus spending score.
+- Spending score distribution across age groups.
+- Average age, income, and spending score by gender.
+- Income and spending patterns by gender.
+- Customer behavior across different age groups.
+- Relationships between age, income, and spending score.
+
+These visualizations provide context for interpreting the customer segments.
+
+### 4. Selecting the Number of Clusters
+
+Two methods are used to evaluate the number of clusters.
+
+**Elbow Method**
+
+The inertia (within-cluster sum of squares) is calculated for different values of K to examine how clustering compactness changes as the number of clusters increases.
+
+**Silhouette Score**
+
+Silhouette scores are calculated for K values from 2 to 7 to evaluate how well-separated the clusters are.
+
+The highest tested silhouette score is **0.5547 at K = 5**, so five clusters are selected for the final model.
+
+### 5. K-Means Clustering
+
+The final K-Means model is configured with:
+
+- Number of clusters: `5`
+- Random state: `42`
+- Number of initializations: `10`
+
+The model groups customers using standardized annual income and spending score values. The resulting cluster labels are added to the dataset.
+
+### 6. Cluster Profiling
+
+The project calculates the average age, annual income, and spending score for each cluster, along with the number of customers in each group.
+
+The five clusters can be interpreted broadly as:
+
+| Cluster | Customer Segment | Average Annual Income (k$) | Average Spending Score |
+|---|---|---:|---:|
+| 0 | Average income, moderate spending | 55.30 | 49.52 |
+| 1 | High income, high spending | 86.54 | 82.13 |
+| 2 | Low income, high spending | 25.73 | 79.36 |
+| 3 | High income, low spending | 88.20 | 17.11 |
+| 4 | Low income, low spending | 26.30 | 20.91 |
+
+These labels are descriptive interpretations based on cluster averages, not predefined customer categories.
+
+### 7. Final Visualization
+
+A scatter plot displays the five customer segments using annual income and spending score. Cluster centroids are also plotted to show the center of each group.
+
+## 📊 Key Findings
+
+The clustering results reveal several distinct customer profiles:
+
+- **High-income, high-spending customers:** Potentially valuable customers for premium offers and loyalty programs.
+- **High-income, low-spending customers:** May respond to targeted promotions or engagement strategies.
+- **Low-income, high-spending customers:** Demonstrate high spending scores despite lower annual incomes.
+- **Low-income, low-spending customers:** Have lower average income and spending scores.
+- **Moderate-income, moderate-spending customers:** Represent the largest segment in this analysis.
+
+These findings can help businesses develop more targeted marketing and customer engagement strategies.
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+Install the required libraries:
+
+```bash
+pip install numpy pandas matplotlib seaborn scikit-learn jupyter
+```
+
+### Run the Project
+
+1. Clone or download the repository.
+2. Place `Mall_Customers.csv` in the project directory.
+3. Open the Jupyter Notebook.
+4. Run the notebook cells in order.
+
+```bash
+jupyter notebook
+```
+
+## 📁 Project Structure
+
 ```text
-├── code.ipynb          # Jupyter Notebook containing the full end-to-end workflow
-├── Mall_Customers.csv  # Dataset used for clustering analysis
-└── README.md           # Project documentation
+Customer-Segmentation/
+│
+├── Mall_Customers.csv
+├── Machine Learning in Python Mini Project4.ipynb
+└── README.md
+```
+
+*Adjust the notebook filename above to match the actual filename in your repository.*
+
+## 🔮 Future Improvements
+
+- Compare K-Means with other clustering algorithms, such as DBSCAN and hierarchical clustering.
+- Evaluate cluster stability using different initializations and feature combinations.
+- Explore the effect of including age in the clustering process.
+- Develop an interactive dashboard for customer segment exploration.
+- Translate customer segments into more detailed marketing recommendations.
